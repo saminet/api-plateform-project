@@ -22,3 +22,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    #my.subscriber:
+        #class: App\EventSubscriber\UserSubscriber
+        #tags:
+            #- { name: doctrine.event_subscriber, connection: default }
+
+    App\State\HashPasswordProcessor:
+        bind:
+            $processor: '@api_platform.doctrine.orm.state.persist_processor'
+
+#    App\State\GetBooksProvider:
+#        bind:
+#            $provider: '@api_platform.doctrine.orm.state.collection_provider'
+
+    App\State\GetBooksProvider:
+        arguments:
+            $provider: '@api_platform.doctrine.orm.state.item_provider'
+        tags: [ 'api_platform.state_provider' ]
